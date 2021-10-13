@@ -69,7 +69,9 @@ describe("test various functionality of our app", () => {
     const cartvalue = await screen.findByTestId("cart");
     expect(cartvalue).toHaveTextContent("0");
   });
+  jest.setTimeout(70000);
   it("clicking details link redirects to detail page of  a single product", async () => {
+    await new Promise((r) => setTimeout(r, 2000));
     const link = await screen.findAllByRole("link", { name: /Details/ });
     userEvent.click(link[0]);
     const name = screen.getByText(/Cellphone/);
