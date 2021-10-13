@@ -19,7 +19,11 @@ const Product: FC<Iproduct> = ({ item }) => {
             alt="poll boll"
           />
           <div>
-            <Link to={`/details/${item.name}`} className="link">
+            <Link
+              to={`/details/${item.name}`}
+              className="link"
+              data-testid="detail"
+            >
               Details{" "}
             </Link>
           </div>

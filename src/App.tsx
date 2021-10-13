@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { fetchdata } from "./features/counter/ProductSlice";
 import DetailsPage from "./components/Details/DetailsPage";
 import NavigationBar from "./components/Navigation/NavigationBar";
+import CartDetails from "./components/Details/CartDetails";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/details/:name" component={DetailsPage} />
+            <Route exact path="/cart/details" component={CartDetails} />
           </Switch>
         </div>
       </div>

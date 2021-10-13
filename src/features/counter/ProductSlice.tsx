@@ -42,12 +42,22 @@ const initialState: productState = {
       },
     ],
   },
-  Cart: [],
+  Cart: [
+    {
+      name: "",
+      price: {
+        currency: "",
+        price: 0,
+      },
+      quantity: 0,
+    },
+  ],
 };
 
 // make a sync request to fetch data.
+export const url = `https://evening-garden-83449.herokuapp.com/https://drive.google.com/uc?export=view&id=1N6y4ZEVdScye93DRppbz7M0lQTAlz3HF&format=json`;
 export const fetchdata = createAsyncThunk("product/fetchdata", async () => {
-  const response = await fetch("data.json", {
+  const response = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -68,8 +78,16 @@ export const productSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    //section for reducers
     addItemtoCart: (state, action) => {
+      state.Cart.push(action.payload);
+    },
+    removeFromCart: (state, action) => {
+      state.Cart = state.Cart.filter((item) => item.name !== action.payload);
+    },
+    ItemQuantity: (state, action) => {
+      state.Cart = state.Cart.filter(
+        (item) => item.name !== action.payload.name
+      );
       state.Cart.push(action.payload);
     },
   },
@@ -91,6 +109,7 @@ export const productSlice = createSlice({
 
 export const selectProduct = (state: RootState) => state.product.product;
 
-export const { addItemtoCart } = productSlice.actions;
+export const { addItemtoCart, removeFromCart, ItemQuantity } =
+  productSlice.actions;
 
 export default productSlice.reducer;
