@@ -11,16 +11,10 @@ import url from "./features/counter/ProductSlice";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({ t: (key: any) => key }),
+}));
 const data = [
-  {
-    name: "cellphone",
-    rating: 3,
-    image_url: "url",
-
-    description: "some desc",
-    prices: [{ currency: "ksh", price: 200 }],
-    available_quantity: 2,
-  },
   {
     name: "cellphone",
     rating: 3,
@@ -32,12 +26,9 @@ const data = [
   },
 ];
 export const handlers = [
-  rest.get(
-    ` https://evening-garden-83449.herokuapp.com/https://drive.google.com/uc`,
-    (req, res, ctx) => {
-      return res(ctx.json(data), ctx.delay(150));
-    }
-  ),
+  rest.get(`${url}`, (req, res, ctx) => {
+    return res(ctx.json(data), ctx.delay(150));
+  }),
 ];
 
 const server = setupServer(...handlers);
@@ -60,21 +51,21 @@ const renderApp = () => {
   );
 };
 
-describe("test entire component", () => {
+describe("test various functionality of our app", () => {
   beforeEach(() => {
     renderApp();
   });
   afterEach(cleanup);
-  it("renders loading", () => {
-    const load = screen.getByText(/Loading/i);
+  it("loading is displayed while  the page is fetching data", async () => {
+    const load = await screen.getByText(/Loading/i);
     expect(load).toBeInTheDocument();
   });
-  test("renders title on load", async () => {
+  test("title is displayed when the page loads", async () => {
     const amazin = await screen.findByText(/TITLE/i);
     expect(amazin).toBeInTheDocument();
   });
 
-  test("initial value of cart is 0 on render", async () => {
+  test("initial value of cart is 0 when page loads", async () => {
     const cartvalue = await screen.findByTestId("cart");
     expect(cartvalue).toHaveTextContent("0");
   });
@@ -90,14 +81,12 @@ describe("test entire component", () => {
     const cartvalue = screen.getByTestId("cart");
     expect(cartvalue).toHaveTextContent("1");
   });
-  it("increase and decrease btn works correctly", () => {
+  it("buttons to increase and decrease quantity works correctly", () => {
     const addbtn = screen.getByTestId("increasebtn");
-    const subbtn = screen.getByTestId("reducebtn");
+    const redbtn = screen.getByTestId("reducebtn");
     const disp = screen.getByTestId("quantitybtn");
     userEvent.click(addbtn);
     expect(disp).toHaveTextContent("2");
-    userEvent.click(subbtn);
-    expect(disp).toHaveTextContent("1");
   });
 
   test("clicking cart icon redirects to cart detail page", async () => {

@@ -10,8 +10,11 @@
 
 .link {
   text-decoration: none;
+  transition: 0.2s;
 }
-
+.link:hover {
+  color: black;
+}
 .select-btn {
   height: 30px;
   border: none;

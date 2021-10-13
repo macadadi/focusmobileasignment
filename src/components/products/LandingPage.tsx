@@ -11,14 +11,17 @@ const LandingPage = () => {
     setStatus(data.status);
   }, [data]);
 
-  if (data.status === "loading") {
-    return <div>Loading please wait</div>;
-  }
   return (
     <div className="row ">
-      {data.product?.products.map((item, index) => (
-        <Product item={item} key={index} />
-      ))}
+      {status === "loading" ? (
+        <div>Loading please wait</div>
+      ) : status === "fullfiled" ? (
+        data.product?.products.map((item, index) => (
+          <Product item={item} key={index} />
+        ))
+      ) : (
+        <div>Network error occured please try again later</div>
+      )}
     </div>
   );
 };
