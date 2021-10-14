@@ -71,7 +71,7 @@ describe("test various functionality of our app", () => {
   });
   jest.setTimeout(70000);
   it("clicking details link redirects to detail page of  a single product", async () => {
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 5000));
     const link = await screen.findAllByRole("link", { name: /Details/ });
     userEvent.click(link[0]);
     const name = screen.getByText(/Cellphone/);
