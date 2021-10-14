@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
@@ -69,7 +69,7 @@ describe("test various functionality of our app", () => {
     const cartvalue = await screen.findByTestId("cart");
     expect(cartvalue).toHaveTextContent("0");
   });
-  jest.setTimeout(70000);
+  jest.setTimeout(6000);
   it("clicking details link redirects to detail page of  a single product", async () => {
     await new Promise((r) => setTimeout(r, 5000));
     const link = await screen.findAllByRole("link", { name: /Details/ });
@@ -89,6 +89,16 @@ describe("test various functionality of our app", () => {
     const disp = screen.getByTestId("quantitybtn");
     userEvent.click(addbtn);
     expect(disp).toHaveTextContent("2");
+    userEvent.click(redbtn);
+    expect(disp).toHaveTextContent("1");
+  });
+  it("change in currency results to change in price", () => {
+    //The value should be the key of the option
+    const selec = screen.getByTestId("select");
+    fireEvent.change(selec, { target: { value: "KES" } });
+
+    const cost = screen.getByTestId("cost");
+    expect(cost).toHaveTextContent(/Price: KES 11000/i);
   });
 
   test("clicking cart icon redirects to cart detail page", async () => {

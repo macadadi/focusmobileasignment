@@ -113,16 +113,21 @@ function DetailsPage() {
               className="select-btn mx-2"
               aria-label=".form-select-sm example"
               onChange={setCurrency}
+              data-testid="select"
             >
               {product?.prices.map((price, index) => (
-                <option value={price.currency} key={index}>
+                <option
+                  data-testid="select-option"
+                  value={price.currency}
+                  key={price.currency}
+                >
                   {price.currency}
                 </option>
               ))}
             </select>
           </div>
           <div className="d-flex">
-            <p>
+            <p data-testid="cost">
               Price: {price?.currency} {price?.price}
             </p>
             {/* display btn to increase quantity only if product has been added to card */}
